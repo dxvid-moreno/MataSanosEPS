@@ -1,3 +1,8 @@
+<?php 
+require ("logica/Especialidad.php");
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -94,6 +99,28 @@
 							puedes asistir.</p>
 						<a href="#" class="btn btn-primary">Cancelar</a>
 					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row mt-3">
+			<div class="col">
+				<div class="card">
+					<div class="card-header"><h4>Especialidades</h4></div>
+					<div class="card-body">
+        				<?php 
+        				$especialidad = new Especialidad();
+        				$especialidades = $especialidad -> consultar();
+        				echo "<ul>";
+        				foreach($especialidades as $esp){
+        				    echo "<li>" . $esp -> getNombre();
+        				    // AQUI
+        				    
+        				    echo "</li>";
+        				}
+        				echo "</ul>";
+        				?>			
+    				</div>
 				</div>
 			</div>
 		</div>
