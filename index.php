@@ -1,5 +1,7 @@
 <?php 
 require ("logica/Especialidad.php");
+require ("logica/Medico.php");
+
 ?>
 
 
@@ -43,7 +45,7 @@ require ("logica/Especialidad.php");
 				class="d-flex flex-column flex-md-row gap-3 text-center text-md-start">
 				<a href="#" class="text-white text-decoration-none">Agendar citas</a>
 				<a href="#" class="text-white text-decoration-none">Mas información</a>
-				<a href="#" class="text-white text-decoration-none"><i
+				<a href="autenticar.php" class="text-white text-decoration-none"><i
 					class="fas fa-user me-1"></i>Autenticar</a>
 			</div>
 		</div>
@@ -114,8 +116,15 @@ require ("logica/Especialidad.php");
         				echo "<ul>";
         				foreach($especialidades as $esp){
         				    echo "<li>" . $esp -> getNombre();
-        				    // AQUI
-        				    
+        				    $medico = new Medico("","","","","","",$esp);
+        				    $medicos = $medico -> consultarPorEspecialidad();
+        				    if (count($medicos) > 0) {
+        				        echo "<ul>";
+        				        foreach ($medicos as $med) {
+        				            echo "<li>" . $med -> getNombre() . " " . $med -> getApellido() . "</li>";
+        				        }
+        				        echo "</ul>";
+        				    }
         				    echo "</li>";
         				}
         				echo "</ul>";
