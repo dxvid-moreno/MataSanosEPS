@@ -1,51 +1,23 @@
 <?php 
-session_start();
-require ("logica/Especialidad.php");
-require ("logica/Medico.php");
-require ("logica/Admin.php");
-
-
 if(isset($_POST["autenticar"])){
     $correo = $_POST["correo"];
     $clave = $_POST["clave"];
-    echo $correo . "<br>";
-    echo $clave . "<br>";
     $admin = new Admin("", "", "", $correo, $clave);
     if($admin -> autenticar()){
         $_SESSION["id"] = $admin -> getId();
-        header("Location: sesionAdmin.php");
+        header("Location: ?pid=" . base64_encode("presentacion/sesionAdmin.php"));
     }else {
         $medico = new Medico("", "", "", $correo, $clave);
         if($medico -> autenticar()){
             $_SESSION["id"] = $medico -> getId();
-            header("Location: sesionMedico.php");
+            header("Location: ?pid=" . base64_encode("presentacion/sesionMedico.php"));
         }else{
             echo "Mensaje de error";
         }
     }
 }
 ?>
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Matasanos EPS</title>
-
-<!-- Bootstrap -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<!-- FontAwesome -->
-<link href="https://use.fontawesome.com/releases/v6.7.2/css/all.css"
-	rel="stylesheet">
-</head>
-
 <body class="bg-light">
-
 	<div class="container py-4">
 		<div class="row align-items-center">
 			<div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
@@ -68,7 +40,7 @@ if(isset($_POST["autenticar"])){
 						<h4>Autenticar</h4>
 					</div>
 					<div class="card-body">
-						<form action="autenticar.php" method="post">
+						<form action="?pid=<?php echo base64_encode("presentacion/autenticar.php") ?>" method="post">
 							<div class="mb-3">								
 								<input type="email" class="form-control" name="correo" placeholder="Correo">
 							</div>
@@ -82,7 +54,6 @@ if(isset($_POST["autenticar"])){
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>
 

@@ -1,7 +1,6 @@
 <?php
 require_once("persistencia/Conexion.php");
-require ("persistencia/CitaDAO.php");
-
+require_once ("persistencia/CitaDAO.php");
 
 class Cita{
     private $id;
