@@ -1,6 +1,9 @@
 <?php 
 require ("logica/Especialidad.php");
 require ("logica/Medico.php");
+require ("logica/Paciente.php");
+require ("logica/Cita.php");
+require ("logica/Consultorio.php");
 
 ?>
 
@@ -133,6 +136,32 @@ require ("logica/Medico.php");
 				</div>
 			</div>
 		</div>
+		
+				<div class="row mt-3">
+			<div class="col">
+				<div class="card">
+					<div class="card-header"><h4>Citas</h4></div>
+					<div class="card-body">
+        				<?php 
+        				$cita = new Cita();
+        				$citas = $cita -> consultar();
+        				echo "<table class='table table-striped table-hover'>";
+        				echo "<tr><td>Id</td><td>Fecha</td><td>Hora</td><td>Paciente</td><td>Medico</td><td>Consultorio</td></tr>";
+        				foreach($citas as $cit){
+        				    echo "<tr>";
+        				    echo "<td>" . $cit -> getId() . "</td>";
+        				    echo "<td>" . $cit -> getFecha() . "</td>";
+        				    echo "<td>" . $cit -> getHora() . "</td>";
+        				    echo "<td>" . $cit -> getPaciente() -> getNombre() . " " . $cit -> getPaciente() -> getApellido() . "</td>";
+        				    echo "<td>" . $cit -> getMedico() -> getNombre() . " " . $cit -> getMedico() -> getApellido() . "</td>";
+        				    echo "<td>" . $cit -> getConsultorio() -> getNombre() . "</td>";
+        				    echo "</tr>";
+        				}
+        				echo "</table>";
+        				?>			
+    				</div>
+				</div>
+			</div>
 	</div>
 
 

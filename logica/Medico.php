@@ -1,6 +1,6 @@
 <?php
-require_once("logica/Persona.php");
 require_once("persistencia/Conexion.php");
+require_once("logica/Persona.php");
 require_once("persistencia/MedicoDAO.php");
 
 class Medico extends Persona {
@@ -37,5 +37,34 @@ class Medico extends Persona {
         }
         $conexion->cerrar();
         return $medicos;
+    }
+    
+    public function autenticar(){
+        $conexion = new Conexion();
+        $medicoDAO = new MedicoDAO("","","", $this -> correo, $this -> clave);
+        $conexion -> abrir();
+        $conexion -> ejecutar($medicoDAO -> autenticar());
+        if($conexion -> filas() == 1){
+            $this -> id = $conexion -> registro()[0];
+            $conexion->cerrar();
+            return true;
+        }else{
+            $conexion->cerrar();
+            return false;
+        }
+    }
+    
+    public function consultar(){
+        $conexion = new Conexion();
+        $medicoDAO = new MedicoDAO($this -> id);
+        $conexion -> abrir();
+        $conexion -> ejecutar($medicoDAO -> consultar());
+        $datos = $conexion -> registro();
+        $this -> nombre = $datos[0];
+        $this -> apellido = $datos[1];
+        $this -> correo = $datos[2];
+        $this -> foto = $datos[3];
+        $this -> especialidad = new Especialidad($datos[4], $datos[5]);
+        $conexion->cerrar();
     }
 }

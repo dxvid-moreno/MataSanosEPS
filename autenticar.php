@@ -1,13 +1,28 @@
 <?php 
+session_start();
 require ("logica/Especialidad.php");
 require ("logica/Medico.php");
+require ("logica/Admin.php");
+
 
 if(isset($_POST["autenticar"])){
     $correo = $_POST["correo"];
     $clave = $_POST["clave"];
     echo $correo . "<br>";
     echo $clave . "<br>";
-    
+    $admin = new Admin("", "", "", $correo, $clave);
+    if($admin -> autenticar()){
+        $_SESSION["id"] = $admin -> getId();
+        header("Location: sesionAdmin.php");
+    }else {
+        $medico = new Medico("", "", "", $correo, $clave);
+        if($medico -> autenticar()){
+            $_SESSION["id"] = $medico -> getId();
+            header("Location: sesionMedico.php");
+        }else{
+            echo "Mensaje de error";
+        }
+    }
 }
 ?>
 
