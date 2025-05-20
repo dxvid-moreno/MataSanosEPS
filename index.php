@@ -6,7 +6,7 @@ require ("logica/Paciente.php");
 require ("logica/Cita.php");
 require ("logica/Consultorio.php");
 require ("logica/Admin.php");
-
+require ("logica/estadoCita.php");
 
 ?>
 <!DOCTYPE html>

@@ -9,14 +9,16 @@ class Cita{
     private $paciente;
     private $medico;
     private $consultorio;
+    private $estadoCita;
     
-    public function __construct($id="", $fecha="", $hora="", $paciente="", $medico="", $consultorio=""){
+    public function __construct($id="", $fecha="", $hora="", $paciente="", $medico="", $consultorio="", $estadoCita=""){
         $this -> id = $id;
         $this -> fecha = $fecha;
         $this -> hora = $hora;
         $this -> paciente = $paciente;
         $this -> medico = $medico;
         $this -> consultorio = $consultorio;
+        $this -> estadoCita = $estadoCita;
     }
     
     public function getId(){
@@ -43,6 +45,10 @@ class Cita{
         return $this -> consultorio;
     }
     
+    public function getEstadoCita(){
+        return $this -> estadoCita;
+    }
+    
     public function consultar($rol="", $id=""){
         $conexion = new Conexion();
         $citaDAO = new CitaDAO();
@@ -52,12 +58,21 @@ class Cita{
         while(($datos = $conexion -> registro()) != null){
             $paciente = new Paciente($datos[3], $datos[4], $datos[5]);
             $medico = new Medico($datos[6], $datos[7], $datos[8]);
-            $consultorio = new Consultorio($datos[9], $datos[10]);            
-            $cita = new Cita($datos[0], $datos[1], $datos[2], $paciente, $medico, $consultorio);
+            $consultorio = new Consultorio($datos[9], $datos[10]);  
+            $estadoCita = new estadoCita($datos[11], $datos[12]);
+            $cita = new Cita($datos[0], $datos[1], $datos[2], $paciente, $medico, $consultorio,$estadoCita);
             array_push($citas, $cita);
         }
         $conexion -> cerrar();
         return $citas;
+    }
+    
+    public function cambiarEstado($nuevoEstado) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $citaDAO = new CitaDAO();
+        $conexion -> ejecutar($citaDAO -> cambiarEstado($this->id, $nuevoEstado));
+        $conexion->cerrar();
     }
     
     

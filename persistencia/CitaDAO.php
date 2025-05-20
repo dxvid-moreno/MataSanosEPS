@@ -17,10 +17,11 @@ class CitaDAO{
     }
     
     public function consultar($rol, $id){
-        $sentencia = "select c.idCita, c.fecha, c.hora, p.idPaciente, p.nombre, p.apellido, m.idMedico, m.nombre, m.apellido, con.idConsultorio, con.nombre
+        $sentencia = "select c.idCita, c.fecha, c.hora, p.idPaciente, p.nombre, p.apellido, m.idMedico, m.nombre, m.apellido, con.idConsultorio, con.nombre, est.idEstadoCita, est.valor
                 from Cita c join Paciente p on c.Paciente_idPaciente = p.idPaciente
                             join Medico m on c.Medico_idMedico = m.idMedico
-                            join Consultorio con on c.Consultorio_idConsultorio = con.idConsultorio";    
+                            join Consultorio con on c.Consultorio_idConsultorio = con.idConsultorio
+                            join EstadoCita est on c.EstadoCita_idEstadoCita = est.idEstadoCita";    
         if($rol == "medico"){
             $sentencia .= " where m.idMedico = '" . $id . "'"; 
         }else if($rol == "paciente"){
@@ -29,8 +30,10 @@ class CitaDAO{
         return $sentencia;
     }
     
-    
-    
+    public function cambiarEstado($id, $nuevoEstado) {
+        return "UPDATE Cita SET EstadoCita_idEstadoCita = $nuevoEstado WHERE idCita = $id";
+    }
+
 }
 
 
