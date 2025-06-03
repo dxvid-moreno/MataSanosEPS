@@ -17,7 +17,7 @@ include ("presentacion/menu" . ucfirst($rol) . ".php");
     				$cita = new Cita();
     				$citas = $cita -> consultar($rol, $id);
     				echo "<table class='table table-striped table-hover'>";
-    				echo "<tr><td>Id</td><td>Fecha</td><td>Hora</td>";
+    				echo "<tr><td>Id</td><td>Fecha</td><td>Hora</td></tr>";
     				if($rol != "paciente"){
     				    echo "<td>Paciente</td>";
     				}

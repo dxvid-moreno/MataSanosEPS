@@ -29,4 +29,10 @@ class PacienteDAO{
                 from Paciente p
                 where idPaciente = '" . $this -> id . "'";
     }
+
+    public function buscar($filtro){
+        return "select p.idPaciente, p.nombre, p.apellido, p.correo
+                from Paciente p
+                where p.nombre like '%" . $filtro . "%' or p.apellido like '%" . $filtro . "%'";
+    }
 }
