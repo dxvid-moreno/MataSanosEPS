@@ -14,17 +14,19 @@ if (count($pacientes) > 0) {
         $correo = htmlspecialchars($pac->getCorreo());
         $palabras = preg_split('/\s+/', $filtro);
         
-        foreach ($palabras as $palabra) {
-            if ($palabra === '') continue;
-            $pattern = '/(' . preg_quote($palabra, '/') . ')/i';
+        if (count($palabras) > 0) {
+            $pattern = '/' . implode('|', array_map(function($p) {
+                return preg_quote($p, '/');
+            }, $palabras)) . '/i';
             
-            $nombre = preg_replace_callback($pattern, function($match) {
-                return "<strong>" . $match[1] . "</strong>";
-            }, $nombre);
-                
-                $apellido = preg_replace_callback($pattern, function($match) {
-                    return "<strong>" . $match[1] . "</strong>";
-                }, $apellido);
+            $resaltarCoincidencia = function($texto, $pattern) {
+                return preg_replace_callback($pattern, function($match) {
+                    return "<strong>" . $match[0] . "</strong>";
+                }, $texto);
+            };
+            
+            $nombre = $resaltarCoincidencia($nombre, $pattern);
+            $apellido = $resaltarCoincidencia($apellido, $pattern);
         }
         
         echo "<tr>";

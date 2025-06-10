@@ -44,12 +44,9 @@ class Paciente extends Persona {
         $conexion -> abrir();
         $conexion -> ejecutar($pacienteDAO -> buscar($filtro));
         $pacientes = array();
-        $nombresApellidos = array();
         while (($datos = $conexion->registro()) != null) {
             $paciente = new Paciente($datos[0], $datos[1], $datos[2], $datos[3]);
             array_push($pacientes, $paciente);
-            $nombreCompleto = $datos[1] . " " . $datos[2];
-            array_push($nombresApellidos, $nombreCompleto);
         }
         $conexion->cerrar();
         return $pacientes;
